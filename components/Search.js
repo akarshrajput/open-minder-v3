@@ -43,6 +43,8 @@ const Search = () => {
   );
 };
 
+Search.displayName = "Search";
+
 const SearchContent = React.forwardRef((props, ref) => {
   const { setShowSearchContent } = props;
 
@@ -69,5 +71,7 @@ const SearchContent = React.forwardRef((props, ref) => {
     </div>
   );
 });
+
+SearchContent.displayName = "SearchContent";
 
 export default Search;
