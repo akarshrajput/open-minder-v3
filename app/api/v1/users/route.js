@@ -1,18 +1,18 @@
-import connectMongoDB from "@db/mongoDB";
-import Blog from "@models/blogModel";
+import connectMongoDB from "@lib/mongoDB";
+import User from "@models/userModel";
 import { NextResponse } from "next/server";
 
 export async function POST(request) {
   try {
     await connectMongoDB();
     const data = await request.json();
-    const newBlog = await Blog.create(data);
+    const newUser = await User.create(data);
     return NextResponse.json(
       {
         statusText: "success",
-        message: "Blog created successfully",
+        message: "User created successfully",
         data: {
-          data: newBlog,
+          data: newUser,
         },
       },
       { status: 201 }
@@ -21,7 +21,7 @@ export async function POST(request) {
     return NextResponse.json(
       {
         statusText: "error",
-        message: "Error creating blog",
+        message: "Error creating User",
         error: err.message,
       },
       { status: 500 }
@@ -32,14 +32,14 @@ export async function POST(request) {
 export async function GET() {
   try {
     await connectMongoDB();
-    const blogs = await Blog.find();
+    const users = await User.find();
     return NextResponse.json(
       {
         statusText: "success",
-        message: "Blog fetched successfully",
-        results: blogs.length,
+        message: "User fetched successfully",
+        results: users.length,
         data: {
-          blogs: blogs,
+          users: users,
         },
       },
       { status: 200 }
@@ -48,7 +48,7 @@ export async function GET() {
     return NextResponse.json(
       {
         statusText: "error",
-        message: "Error getting blogs",
+        message: "Error getting users",
       },
       { status: 404 }
     );

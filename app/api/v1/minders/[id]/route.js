@@ -1,18 +1,18 @@
-import connectMongoDB from "@db/mongoDB";
-import Blog from "@models/blogModel";
+import connectMongoDB from "@lib/mongoDB";
+import Minder from "@models/minderModel";
 import { NextResponse } from "next/server";
 
 export async function GET(request) {
   try {
-    const blogId = request.url.split("blogs/")[1];
+    const minderId = request.url.split("minders/")[1];
     await connectMongoDB();
-    const blog = await Blog.findById(blogId);
-    if (blog) {
+    const minder = await Minder.findById(minderId);
+    if (minder) {
       return NextResponse.json(
         {
           status: "success",
-          message: "Blog found Successfully",
-          data: blog,
+          message: "Minder found Successfully",
+          data: minder,
         },
         { status: 200 }
       );
@@ -20,7 +20,7 @@ export async function GET(request) {
       return NextResponse.json(
         {
           status: "error",
-          message: `Blog not found with id ${blogId}`,
+          message: `Minder not found with id ${minderId}`,
         },
         { status: 404 }
       );
@@ -35,13 +35,13 @@ export async function GET(request) {
 
 export async function DELETE(request) {
   try {
-    const blogId = request.url.split("blogs/")[1];
+    const minderId = request.url.split("minders/")[1];
     await connectMongoDB();
-    const blog = await Blog.findByIdAndDelete(blogId);
+    const minder = await Minder.findByIdAndDelete(minderId);
     return NextResponse.json(
       {
         status: "success",
-        message: "Blog deleted Successfully",
+        message: "Minder deleted Successfully",
       },
       { status: 200 }
     );
@@ -55,18 +55,18 @@ export async function DELETE(request) {
 
 export async function PATCH(request) {
   try {
-    const blogId = request.url.split("blogs/")[1];
+    const minderId = request.url.split("minders/")[1];
     await connectMongoDB();
     const updateData = await request.json();
-    const updatedBlog = await Blog.findByIdAndUpdate(blogId, updateData, {
+    const updatedMinder = await Minder.findByIdAndUpdate(minderId, updateData, {
       new: true,
     });
     return NextResponse.json(
       {
         status: "success",
-        message: "Blog deleted Successfully",
+        message: "Minder deleted Successfully",
         data: {
-          updatedBlog: updatedBlog,
+          updatedMinder: updatedMinder,
         },
       },
       { status: 200 }
