@@ -1,6 +1,7 @@
 import connectMongoDB from "@lib/mongoDB";
 import Minder from "@models/minderModel";
 import { NextResponse } from "next/server";
+import APIFeatures from "@utils/apiFeatures";
 
 export async function POST(request) {
   try {
@@ -29,14 +30,25 @@ export async function POST(request) {
   }
 }
 
-export async function GET() {
+export async function GET(request) {
   try {
     await connectMongoDB();
-    const minders = await Minder.find();
+
+    const url = new URL(request.url);
+    const query = Object.fromEntries(url.searchParams.entries());
+
+    const features = new APIFeatures(Minder.find(), query)
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+
+    const minders = await features.query;
+
     return NextResponse.json(
       {
         statusText: "success",
-        message: "Minder fetched successfully",
+        message: "Minders fetched successfully",
         results: minders.length,
         data: {
           minders: minders,
@@ -49,8 +61,9 @@ export async function GET() {
       {
         statusText: "error",
         message: "Error getting minders",
+        error: err.message,
       },
-      { status: 404 }
+      { status: 500 }
     );
   }
 }

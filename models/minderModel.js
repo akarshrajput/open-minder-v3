@@ -17,9 +17,10 @@ const minderSchema = new mongoose.Schema(
       default: false,
     },
     heading: {
-      // For Blog, News, Article, Research Paper, Story
+      // For all
       type: String,
       trim: true,
+      required: true,
       minlength: [10, "Heading must have more than 10 characters."],
       maxlength: [100, "Heading must have less than 100 characters."],
     },
