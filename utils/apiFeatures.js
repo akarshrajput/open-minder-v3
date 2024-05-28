@@ -14,6 +14,10 @@ class APIFeatures {
       queryObj.heading = { $regex: queryObj.heading, $options: "i" }; // Case-insensitive partial match
     }
 
+    if (queryObj.minderType) {
+      queryObj.minderType = { $regex: queryObj.minderType, $options: "i" }; // Case-insensitive partial match
+    }
+
     // Advanced filtering
     let queryStr = JSON.stringify(queryObj);
     queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
