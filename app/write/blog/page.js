@@ -15,8 +15,8 @@ const page = async () => {
           >
             Login to write Blog
           </Link>
-          <p className="text-sm text-red-600">
-            * You cannot write Minders, until you are not Logged In
+          <p className="text-sm text-red-600 border-l-2 border-l-red-600 pl-2">
+            You cannot write until you are not Logged In
           </p>
         </div>
       ) : (

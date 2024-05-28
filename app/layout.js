@@ -11,15 +11,17 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  // const showHeader = !pathname.startsWith("/read/");
   return (
     <html lang="en">
       <body className={inter.className}>
         <Toaster />
         <div className="text-slate-700 w-full mx-auto my-0">
           <div className="sticky top-0 bg-white  z-10">
+            {/* {showHeader && <Header />} */}
             <Header />
           </div>
-          <div className="p-4 mt-0">{children}</div>
+          <div className="mt-0 p-4">{children}</div>
         </div>
       </body>
     </html>

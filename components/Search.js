@@ -93,14 +93,14 @@ const SearchContent = React.forwardRef(
         ) : (
           <ul className="flex flex-col gap-1">
             {minders.length > 0 ? (
-              <p className="flex gap-1 items-center bg-green-200 py-1 px-2 rounded-md text-stone-800">
+              <p className="flex gap-1 items-center bg-gray-0 py-1 px-2 rounded-md text-stone-800">
                 Results {minders.length}
               </p>
             ) : (
               ""
             )}
             <Link
-              className="flex gap-1 items-center bg-indigo-200 py-1 px-2 rounded-md text-indigo-800"
+              className="flex gap-1 items-center bg-indigo-400 py-1 px-2 rounded-md text-white"
               href="/subscription"
             >
               <li>Openminder plus</li>
@@ -122,7 +122,7 @@ const SearchContent = React.forwardRef(
 const SearchItem = ({ minder }) => {
   return (
     <Link
-      className="flex gap-1 items-center bg-green-200 py-1 px-2 rounded-md text-stone-800"
+      className="flex gap-1 items-center bg-gray-200 hover:bg-gray-300 text-stone-800 py-1 px-2 rounded-md"
       href={`/read/${minder._id}`}
     >
       {minder?.heading}
