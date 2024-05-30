@@ -15,6 +15,10 @@ const minderSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    slug: {
+      type: String,
+      unique: true,
+    },
     heading: {
       type: String,
       trim: true,
@@ -64,7 +68,7 @@ const minderSchema = new mongoose.Schema(
       type: String,
       trim: true,
       minlength: [3, "Journal name must have more than 3 characters."],
-      maxlength: [100, "Journal name must have less than 100 characters."],
+      maxlength: [500, "Journal name must have less than 100 characters."],
     },
     references: [
       {
@@ -145,6 +149,22 @@ minderSchema.pre(/^find/, function (next) {
     select: "name email photo verified",
   });
   next();
+});
+
+minderSchema.pre("save", function (next) {
+  const s = this.heading.split(" ").join("-").toLowerCase();
+  const id = this._id;
+  const u = `${s.substring(0, 40)}-${id}`;
+  const m = u.replace(/[^a-zA-Z0-9-]/g, "");
+  this.slug = m;
+  next();
+});
+
+minderSchema.virtual("readTime").get(function () {
+  const wordsPerMinute = 200; // Average reading speed
+  const words = this.content ? this.content.split(/\s+/).length : 0;
+  const readTimeMinutes = Math.ceil(words / wordsPerMinute);
+  return readTimeMinutes;
 });
 
 const Minder = mongoose.models.Minder || mongoose.model("Minder", minderSchema);

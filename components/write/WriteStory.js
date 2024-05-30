@@ -1,14 +1,12 @@
 "use client";
-import hostname from "@lib/hostname";
 import axios from "axios";
 import { useState } from "react";
 import supabase from "@lib/supabase";
-import supabaseURL from "@lib/supabaseurl";
 import toast from "react-hot-toast";
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 import { useRouter } from "next/navigation";
 
-const WriteStory = ({ session }) => {
+const WriteStory = ({ supabaseURL, hostname, session }) => {
   const [heading, setHeading] = useState("");
   const [description, setDescription] = useState("");
   const [content, setContent] = useState("");
@@ -35,7 +33,7 @@ const WriteStory = ({ session }) => {
     try {
       setIsLoading(true);
       const imageName = `${Math.random()}-${Date.now()}-${featuredImage?.name}`;
-      const imagePath = `${supabaseURL}/storage/v1/object/public/blog-photo/${imageName}`;
+      const imagePath = `${supabaseURL}/storage/v1/object/public/minder-image/${imageName}`;
       const storyData = {
         heading: heading,
         description: description,
@@ -47,8 +45,8 @@ const WriteStory = ({ session }) => {
         summary: summary,
         featuredImage: imagePath,
       };
-
-      // console.log(blogData);
+      // console.log(supabaseURL);
+      // console.log(storyData);
 
       const response = await axios.post(
         `${hostname}/api/v1/minders`,
@@ -61,11 +59,13 @@ const WriteStory = ({ session }) => {
       );
 
       const avatarFile = featuredImage;
-      await supabase.storage.from("blog-photo").upload(imageName, avatarFile);
+      await supabase.storage.from("minder-image").upload(imageName, avatarFile);
 
-      //   console.log("Blog posted successfully:", response.data);
-      toast.success("Blog posted!");
-      router.push("/");
+      console.log(response);
+      const slug = response?.data?.data?.data?.slug;
+      toast.success("Story posted!");
+      router.push(`/read/${slug}`);
+      // router.push("/");
 
       setHeading("");
       setDescription("");
@@ -74,6 +74,7 @@ const WriteStory = ({ session }) => {
       setTags([]);
     } catch (error) {
       toast.error("Error posting blog:", error);
+      // console.log(response);
     } finally {
       setIsLoading(false);
     }

@@ -2,10 +2,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import { MagnifyingGlassIcon, SparklesIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
-import hostname from "@lib/hostname";
+// import hostname from "@lib/hostname";
 import Loader from "./Loader";
 
-const Search = () => {
+const Search = ({ hostname }) => {
   const [input, setInput] = useState("");
   const [showSearchContent, setShowSearchContent] = useState(false);
   const searchContentRef = useRef(null);
@@ -39,7 +39,7 @@ const Search = () => {
           const data = await res.json();
           setMinders(data?.data?.minders || []);
         } catch (error) {
-          console.error("Error fetching minders:", error);
+          console.error("Error fetching minders:");
         } finally {
           setLoading(false);
         }
@@ -123,7 +123,7 @@ const SearchItem = ({ minder }) => {
   return (
     <Link
       className="flex gap-1 items-center bg-gray-200 hover:bg-gray-300 text-stone-800 py-1 px-2 rounded-md"
-      href={`/read/${minder._id}`}
+      href={`/read/${minder.slug}`}
     >
       {minder?.heading}
     </Link>

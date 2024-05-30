@@ -2,6 +2,8 @@ import WriteStory from "@components/write/WriteStory";
 import { auth } from "@lib/auth";
 import Link from "next/link";
 import React from "react";
+const hostname = process.env.HOST_NAME;
+const supabaseURL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 
 const page = async () => {
   const session = await auth();
@@ -20,7 +22,11 @@ const page = async () => {
           </p>
         </div>
       ) : (
-        <WriteStory session={session} />
+        <WriteStory
+          supabaseURL={supabaseURL}
+          hostname={hostname}
+          session={session}
+        />
       )}
     </div>
   );

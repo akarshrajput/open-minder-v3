@@ -1,10 +1,10 @@
 import { CheckBadgeIcon, NewspaperIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 
-const NewBlogs = async () => {
+const NewArticles = async () => {
   const hostname = process.env.HOST_NAME;
   const res = await fetch(
-    `${hostname}/api/v1/minders?minderType=blog&limit=4&sort=-createdAt`
+    `${hostname}/api/v1/minders?minderType=Article&limit=4&sort=-createdAt`
   );
   if (!res.ok) {
     throw new Error("Network response was not ok");
@@ -16,7 +16,7 @@ const NewBlogs = async () => {
     <div className="flex flex-col gap-4 p-1 rounded-sm">
       <div className="flex gap-1 items-center">
         <NewspaperIcon className="size-4" />
-        <p>New Blogs</p>
+        <p>New Articles</p>
       </div>
       {fetchedBlogs.map((blog) => (
         <Blog blog={blog} key={blog._id} />
@@ -48,9 +48,6 @@ const Blog = ({ blog }) => {
             <p className="font-medium bg-gray-200 px-2 rounded-lg">
               {blog?.minderType}
             </p>
-            <p className="font-medium bg-stone-200 px-2 rounded-lg">
-              {blog?.readTime} min read
-            </p>
           </div>
           <p className="font-semibold"> {newHeading}</p>
           <p className="text-sm">{newDescription}</p>
@@ -72,4 +69,4 @@ const Blog = ({ blog }) => {
   );
 };
 
-export default NewBlogs;
+export default NewArticles;

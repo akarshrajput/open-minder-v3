@@ -3,17 +3,20 @@
 import axios from "axios";
 import { useState } from "react";
 import supabase from "@lib/supabase";
-// import supabaseURL from "@lib/supabaseurl";
 import toast from "react-hot-toast";
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 import { useRouter } from "next/navigation";
 
-const WriteBlog = ({ supabaseURL, hostname, session }) => {
+const WriteArticle = ({ supabaseURL, hostname, session }) => {
   const [heading, setHeading] = useState("");
   const [description, setDescription] = useState("");
   const [content, setContent] = useState("");
   const [tags, setTags] = useState([]);
   const [featuredImage, setFeaturedImage] = useState({});
+  const [journal, setJournal] = useState("");
+  const [source, setSource] = useState("");
+  const [summary, setSummary] = useState("");
+  const [abstract, setAbstract] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
@@ -44,8 +47,12 @@ const WriteBlog = ({ supabaseURL, hostname, session }) => {
         description: description,
         content: content,
         tags: tags,
+        source: source,
+        abstract: abstract,
+        journal: journal,
+        summary: summary,
         author: session.user.userId,
-        minderType: "Blog",
+        minderType: "Article",
         featuredImage: imagePath,
       };
 
@@ -140,15 +147,55 @@ const WriteBlog = ({ supabaseURL, hostname, session }) => {
             placeholder="Write description for your Blog"
           ></textarea>
         </div>
+        <div className="flex flex-col gap-1">
+          <label>Journal</label>
+          <textarea
+            rows={4}
+            className="bg-gray-200 w-full p-2 outline-none border rounded-md resize-none"
+            value={journal}
+            onChange={(e) => setJournal(e.target.value)}
+            placeholder="Write journal for your Blog"
+          ></textarea>
+        </div>
 
         <div className="flex flex-col gap-1">
           <label>Content</label>
           <textarea
-            rows={16}
+            rows={20}
             className="bg-gray-200 w-full p-2 outline-none border rounded-md resize-none"
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            placeholder="Write content for your Blog"
+            placeholder="Write content for your Article"
+          ></textarea>
+        </div>
+        <div className="flex flex-col gap-1">
+          <label>Abstract</label>
+          <textarea
+            rows={6}
+            className="bg-gray-200 w-full p-2 outline-none border rounded-md resize-none"
+            value={abstract}
+            onChange={(e) => setAbstract(e.target.value)}
+            placeholder="Write abstract for your Article"
+          ></textarea>
+        </div>
+        <div className="flex flex-col gap-1">
+          <label>Summary</label>
+          <textarea
+            rows={4}
+            className="bg-gray-200 w-full p-2 outline-none border rounded-md resize-none"
+            value={summary}
+            onChange={(e) => setSummary(e.target.value)}
+            placeholder="Write Summary for your Article"
+          ></textarea>
+        </div>
+        <div className="flex flex-col gap-1">
+          <label>Sources</label>
+          <textarea
+            rows={1}
+            className="bg-gray-200 w-full p-2 outline-none border rounded-md resize-none"
+            value={source}
+            onChange={(e) => setSource(e.target.value)}
+            placeholder="Write Summary for your Article"
           ></textarea>
         </div>
         <button
@@ -172,4 +219,4 @@ const WriteBlog = ({ supabaseURL, hostname, session }) => {
   );
 };
 
-export default WriteBlog;
+export default WriteArticle;

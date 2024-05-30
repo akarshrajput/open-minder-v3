@@ -1,4 +1,10 @@
-import { ArrowUpTrayIcon, PlayIcon, PlusIcon } from "@heroicons/react/24/solid";
+import {
+  ArrowUpTrayIcon,
+  CubeIcon,
+  PlayIcon,
+  PlusIcon,
+  ShareIcon,
+} from "@heroicons/react/24/solid";
 import { auth } from "@lib/auth";
 import Link from "next/link";
 import React from "react";
@@ -33,6 +39,12 @@ const Hero = async () => {
             <li className="flex gap-1 font-semibold items-center bg-red-600 text-stone-100 py-1 px-2 rounded-[4px]">
               <PlayIcon className="size-4 text-stone-100" />
               Minder Shorts
+            </li>
+          </Link>
+          <Link href="/write/blog">
+            <li className="flex gap-1 font-semibold items-center bg-stone-800 text-stone-100 py-1 px-2 rounded-[4px]">
+              <CubeIcon className="size-4 text-stone-100" />
+              Discover
             </li>
           </Link>
           <Link href="/write/blog">
@@ -76,6 +88,12 @@ const Hero = async () => {
             <li className="flex gap-1 font-semibold items-center bg-stone-200 text-stone-800 py-1 px-2 rounded-[4px]">
               <ArrowUpTrayIcon className="size-4" />
               Upload Videos
+            </li>
+          </Link>
+          <Link href="/share/work">
+            <li className="flex gap-1 font-semibold items-center bg-stone-800 text-stone-100 py-1 px-2 rounded-[4px]">
+              <ShareIcon className="size-4" />
+              Share Work
             </li>
           </Link>
         </ul>

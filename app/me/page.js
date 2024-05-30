@@ -1,4 +1,5 @@
 import Account from "@components/Account";
+import CurrentUserMinders from "@components/currentUserComponents/CurrentUserMinders";
 import { signOutAction } from "@lib/actions";
 import { auth } from "@lib/auth";
 
@@ -23,6 +24,9 @@ const page = async () => {
       ) : (
         ""
       )}
+      <div>
+        <CurrentUserMinders />
+      </div>
     </div>
   );
 };

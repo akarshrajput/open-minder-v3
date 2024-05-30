@@ -1,8 +1,8 @@
 import { CheckBadgeIcon, NewspaperIcon } from "@heroicons/react/24/solid";
-import hostname from "@lib/hostname";
 import Link from "next/link";
 
 const NewStories = async () => {
+  const hostname = process.env.HOST_NAME;
   const res = await fetch(
     `${hostname}/api/v1/minders?minderType=Story&limit=4&sort=-createdAt`
   );
@@ -30,7 +30,7 @@ const Blog = ({ blog }) => {
   const newDescription = blog?.description.substring(0, 80);
   return (
     <div>
-      <Link href={`/read/${blog._id}`}>
+      <Link href={`/read/${blog.slug}`}>
         <div className="px-1 cursor-pointer flex flex-col gap-1 border-l-2 pl-2 border-l-gray-400 ">
           <div className="flex text-sm font-medium items-center gap-1">
             <img src={blog?.author?.photo} className="w-5 rounded-full" />
@@ -42,6 +42,9 @@ const Blog = ({ blog }) => {
             )}
             <p className="font-medium bg-gray-200 px-2 rounded-lg">
               {blog?.minderType}
+            </p>
+            <p className="font-medium bg-stone-200 px-2 rounded-lg">
+              {blog?.readTime} min read
             </p>
           </div>
           <p className="font-semibold"> {newHeading}</p>

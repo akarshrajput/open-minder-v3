@@ -1,6 +1,8 @@
 import WriteBlog from "@components/write/WriteBlog";
 import { auth } from "@lib/auth";
 import Link from "next/link";
+const hostname = process.env.HOST_NAME;
+const supabaseURL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 
 const page = async () => {
   const session = await auth();
@@ -20,7 +22,11 @@ const page = async () => {
           </p>
         </div>
       ) : (
-        <WriteBlog session={session} />
+        <WriteBlog
+          supabaseURL={supabaseURL}
+          hostname={hostname}
+          session={session}
+        />
       )}
     </div>
   );

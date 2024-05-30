@@ -7,7 +7,7 @@ const HeaderNav = async () => {
   return (
     <div className="ml-auto flex items-center gap-4">
       <Link
-        className="border flex gap-1  items-center font-medium  bg-stone-200 text-indigo-900 py-1.5 px-2 rounded-md"
+        className="border flex gap-1  items-center font-semibold  bg-stone-200 text-stone-800 py-1 px-2 rounded-md"
         href="/minderai"
       >
         <p>Minder AI</p>
@@ -24,7 +24,7 @@ const HeaderNav = async () => {
         </Link>
       ) : (
         <Link
-          className="border flex gap-1 items-center font-medium  bg-stone-200 text-stone-800 py-1.5 px-2 rounded-md"
+          className="border flex gap-1 items-center font-semibold  bg-stone-200 text-stone-800 py-1 px-2 rounded-md"
           href="/login"
         >
           <LockClosedIcon className="size-4" />

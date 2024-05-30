@@ -1,16 +1,15 @@
 import { CheckBadgeIcon } from "@heroicons/react/24/solid";
-import hostname from "@lib/hostname";
+const hostname = process.env.HOST_NAME;
 import React from "react";
 
-export const metadata = {
-  title: `Read Minder`,
-};
-
 const page = async ({ params }) => {
-  const res = await fetch(`${hostname}/api/v1/minders/${params.minderId}`);
+  const res = await fetch(`${hostname}/api/v1/minders/slug/${params.slug}`);
+  // console.log("Slug is", params.slug);
   const minder = await res.json();
-  // console.log(minder);
   const contentWithLineBreaks = minder?.data?.content.replace(/\n/g, "<br>");
+  const metadata = {
+    title: minder?.data?.heading, // Set the blog heading as the title
+  };
   return (
     <div className="font-medium flex flex-col items-center">
       <div className="flex flex-col gap-2 w-[80rem]">
@@ -35,9 +34,34 @@ const page = async ({ params }) => {
 
         <img src={minder?.data?.featuredImage} className="w-full rounded-md" />
         <div>
+          {minder?.data?.source ? (
+            <div className="flex font-semibold w-fit text-sm text-stone-600 items-center gap-1">
+              <p>Sources</p>
+              <p className="">{minder?.data?.source}</p>
+            </div>
+          ) : (
+            ""
+          )}
           <p className="text-xl border-l-2 border-l-black pl-4 p-2 my-2">
             {minder?.data?.description}
           </p>
+
+          {minder?.data?.journal ? (
+            <div className="text-xl my-10 italic font-serif rounded-sm border-2 border-black pl-4 p-2">
+              <p className="mb-2">Short Journal :</p>
+              <p>{minder?.data?.journal}</p>
+            </div>
+          ) : (
+            ""
+          )}
+          {minder?.data?.abstract ? (
+            <div className="px-4 py-2 text-lg rounded-sm text-red-800  mt-6 mb-20 border-l-2 border-l-black">
+              {/* <p className="font-semibold text-xl mb-1">Abstract :</p> */}
+              <p>{minder?.data?.abstract}</p>
+            </div>
+          ) : (
+            ""
+          )}
           <div>
             <p
               className="text-lg px-4 p-2 my-2"
@@ -48,7 +72,7 @@ const page = async ({ params }) => {
           </div>
         </div>
         {minder?.data?.summary ? (
-          <div className="px-4 text-lg  mt-6 mb-20 border-l-2 border-l-black">
+          <div className="px-4 text-lg  mt-6 mb-10 border-l-2 border-l-black">
             <p className="font-semibold text-xl mb-1">Short summary :</p>
             <p>{minder?.data?.summary}</p>
           </div>
