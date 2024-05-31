@@ -43,21 +43,29 @@ const WriteWork = ({ supabaseURL, hostname, session }) => {
     }
     try {
       setIsLoading(true);
+      toast.success("Uploading Images...");
       let uploadedImagePaths = [];
       for (const image of collectedInputImages) {
-        const imageName = `${Math.random()}-${Date.now()}-${image.name}`;
+        const imageName = `${Math.random()}-${Date.now()}-${image.name.replace(
+          /\s+/g,
+          "-"
+        )}`;
         const imagePath = `${supabaseURL}/storage/v1/object/public/project-image/${imageName}`;
         uploadedImagePaths.push(imagePath);
         await supabase.storage.from("project-image").upload(imageName, image);
       }
 
-      const featuredImageName = `${Math.random()}-${Date.now()}-${
-        featuredImage.name
-      }`;
+      const featuredImageName = `${Math.random()}-${Date.now()}-${featuredImage.name.replace(
+        /\s+/g,
+        "-"
+      )}`;
       const featuredImagePath = `${supabaseURL}/storage/v1/object/public/project-image/${featuredImageName}`;
       await supabase.storage
         .from("project-image")
         .upload(featuredImageName, featuredImage);
+
+      toast.success("Images Uploaded!");
+      toast.success("Uploading Minder data...");
 
       const blogData = {
         workType: workType,
@@ -76,9 +84,8 @@ const WriteWork = ({ supabaseURL, hostname, session }) => {
           "Content-Type": "application/json",
         },
       });
-      //   console.log(blogData);
 
-      //   console.log(response);
+      toast.success("Minder data Uploaded!");
 
       toast.success("Work posted!");
       router.push(`/work/${response?.data?.data?.data?.slug}`);
