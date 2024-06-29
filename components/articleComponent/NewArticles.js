@@ -45,10 +45,10 @@ const Blog = ({ blog }) => {
             ) : (
               ""
             )}
-            <p className="font-medium bg-gray-200 px-2 rounded-lg">
+            <p className="font-medium dark:bg-stone-700 bg-gray-200 px-2 rounded-lg">
               {blog?.minderType}
             </p>
-            <p className="font-medium bg-stone-200 px-2 rounded-lg">
+            <p className="font-medium dark:bg-stone-700 bg-stone-200 px-2 rounded-lg">
               {blog?.readTime} min read
             </p>
           </div>

@@ -4,30 +4,30 @@ import React from "react";
 
 const page = async ({ params }) => {
   const res = await fetch(`${hostname}/api/v1/minders/slug/${params.slug}`);
-  // console.log("Slug is", params.slug);
+
   const minder = await res.json();
   const contentWithLineBreaks = minder?.data?.content.replace(/\n/g, "<br>");
   const metadata = {
-    title: minder?.data?.heading, // Set the blog heading as the title
+    title: minder?.data?.heading,
   };
   return (
     <div className="font-medium flex flex-col items-center">
       <div className="flex flex-col gap-2 w-[80rem]">
         {minder?.data?.genre ? (
-          <p className="text-xl font-bold text-stone-600">
+          <p className="text-xl font-bold dark:text-stone-300 text-stone-600">
             Genre : {minder?.data?.genre}
           </p>
         ) : (
           ""
         )}
-        <h1 className="text-[5rem] text-stone-600 font-bold border-l-4 border-l-black pl-4">
+        <h1 className="text-[5rem] dark:text-stone-300 text-stone-600 font-bold border-l-4 border-l-black dark:border-stone-200 pl-4">
           {minder?.data?.heading}
         </h1>
         <div className="flex gap-2 items-center py-2">
           <img src={minder?.data?.author?.photo} className="w-6 rounded-full" />
           <p>{minder?.data?.author?.name}</p>
           <CheckBadgeIcon className="size-5 text-sky-500" />
-          <p className="px-2 bg-stone-100 rounded-full w-fit border">
+          <p className="px-2 dark:bg-stone-700 bg-stone-100 rounded-full w-fit border">
             {minder?.data?.minderType}
           </p>
         </div>
@@ -42,12 +42,12 @@ const page = async ({ params }) => {
           ) : (
             ""
           )}
-          <p className="text-xl border-l-2 border-l-black pl-4 p-2 my-2">
+          <p className="text-xl border-l-2 border-l-black dark:border-stone-200 pl-4 p-2 my-2">
             {minder?.data?.description}
           </p>
 
           {minder?.data?.journal ? (
-            <div className="text-xl my-10 italic font-serif rounded-sm border-2 border-black pl-4 p-2">
+            <div className="text-xl my-10 italic font-serif rounded-sm border-2 border-black dark:border-stone-200 pl-4 p-2">
               <p className="mb-2">Short Journal :</p>
               <p>{minder?.data?.journal}</p>
             </div>
@@ -55,7 +55,7 @@ const page = async ({ params }) => {
             ""
           )}
           {minder?.data?.abstract ? (
-            <div className="px-4 py-2 text-lg rounded-sm text-red-800  mt-6 mb-20 border-l-2 border-l-black">
+            <div className="px-4 py-2 text-lg rounded-sm dark:text-red-500 text-red-800  mt-6 mb-20 border-l-2 dark:border-stone-200 border-l-black">
               {/* <p className="font-semibold text-xl mb-1">Abstract :</p> */}
               <p>{minder?.data?.abstract}</p>
             </div>
@@ -72,7 +72,7 @@ const page = async ({ params }) => {
           </div>
         </div>
         {minder?.data?.summary ? (
-          <div className="px-4 text-lg  mt-6 mb-10 border-l-2 border-l-black">
+          <div className="px-4 text-lg  mt-6 mb-10 border-l-2 border-l-black dark:border-stone-200">
             <p className="font-semibold text-xl mb-1">Short summary :</p>
             <p>{minder?.data?.summary}</p>
           </div>

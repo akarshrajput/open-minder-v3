@@ -52,10 +52,10 @@ const Search = ({ hostname }) => {
 
   return (
     <div className="flex font-medium flex-col relative max-w-sm">
-      <div className="flex items-center gap-1 rounded-lg bg-slate-50 border w-96 pl-2">
+      <div className="flex items-center gap-1 rounded-lg dark:bg-stone-800 px-1 dark:border-stone-600 bg-stone-50  border w-96 pl-2">
         <MagnifyingGlassIcon className="size-6 text-slate-400" />
         <input
-          className="py-2 px-2 w-11/12 bg-slate-50 outline-none"
+          className="py-2 px-2 w-11/12 dark:bg-stone-800 bg-stone-50  outline-none"
           placeholder="Search blogs, news, articles and more..."
           onFocus={() => setShowSearchContent(true)}
           value={input}
@@ -86,14 +86,14 @@ const SearchContent = React.forwardRef(
       <div
         onClick={handleClick}
         ref={ref}
-        className="absolute overflow-scroll max-h-80 font-medium top-full left-0 w-96 bg-white p-1 mt-1 border border-gray-300 rounded-md shadow-md"
+        className="absolute overflow-scroll max-h-80 font-medium top-full left-0 w-96 dark:bg-stone-800 bg-stone-50 p-1 mt-1 border dark:border-stone-600 border-gray-300 rounded-md shadow-md"
       >
         {loading ? (
           <Loader />
         ) : (
           <ul className="flex flex-col gap-1">
             {minders.length > 0 ? (
-              <p className="flex gap-1 items-center bg-gray-0 py-1 px-2 rounded-md text-stone-800">
+              <p className="flex gap-1 items-center bg-gray-0 py-1 px-2 rounded-md">
                 Results {minders.length}
               </p>
             ) : (
@@ -122,7 +122,7 @@ const SearchContent = React.forwardRef(
 const SearchItem = ({ minder }) => {
   return (
     <Link
-      className="flex gap-1 items-center bg-gray-200 hover:bg-gray-300 text-stone-800 py-1 px-2 rounded-md"
+      className="flex gap-1 items-center bg-gray-100 dark:bg-stone-700 dark:hover:bg-stone-600  hover:bg-gray-200 py-1 px-2 rounded-md"
       href={`/read/${minder.slug}`}
     >
       {minder?.heading}

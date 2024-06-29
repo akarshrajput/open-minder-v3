@@ -46,7 +46,7 @@ const Blog = ({ work }) => {
             ) : (
               ""
             )}
-            <p className="font-medium bg-gray-200 px-2 rounded-lg">
+            <p className="font-medium dark:bg-stone-700 bg-gray-200 px-2 rounded-lg">
               {work?.minderType}
             </p>
           </div>

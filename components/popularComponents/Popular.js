@@ -3,6 +3,7 @@ import Link from "next/link";
 
 const Popular = async () => {
   const hostname = process.env.HOST_NAME;
+
   const res = await fetch(
     `${hostname}/api/v1/minders/slug/the-rise-in-temperature-in-india-an-ala-6658a31504778ad751fa627a`
   );
@@ -10,6 +11,7 @@ const Popular = async () => {
     throw new Error("Network response was not ok");
   }
   const data = await res.json();
+
   const minder = data?.data;
 
   return (
@@ -37,13 +39,13 @@ const Minder = ({ minder }) => {
             {minder?.author?.verified && (
               <CheckBadgeIcon className="size-4 text-cyan-600" />
             )}
-            <p className="font-medium bg-gray-200 px-2 rounded-lg">
+            <p className="font-medium dark:bg-stone-700 bg-gray-200 px-2 rounded-lg">
               {minder?.minderType}
             </p>
-            <p className="font-medium bg-stone-200 px-2 rounded-lg">
+            <p className="font-medium dark:bg-stone-700 bg-stone-200 px-2 rounded-lg">
               {minder?.readTime} min read
             </p>
-            <p className="font-medium bg-stone-200 px-2 rounded-lg">
+            <p className="font-medium dark:bg-stone-700 bg-stone-200 px-2 rounded-lg">
               {`${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`}
             </p>
           </div>
