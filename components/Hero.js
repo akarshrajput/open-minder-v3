@@ -10,6 +10,7 @@ import Link from "next/link";
 import React from "react";
 import BaseSpecialButton from "./buttons/BaseSpecialButton";
 import BaseButton from "./buttons/BaseButton";
+import { ChalkboardSimple } from "@phosphor-icons/react/dist/ssr";
 
 const Hero = async () => {
   const session = await auth();
@@ -28,37 +29,16 @@ const Hero = async () => {
             <CubeIcon className="size-4" />
             Discover
           </BaseSpecialButton>
-          <BaseButton href="/write/blog">
+          <BaseButton href="/write">
             <PlusIcon className="size-4" />
-            Blog
-          </BaseButton>
-          <BaseButton href="/write/article">
-            <PlusIcon className="size-4 " />
-            Article
-          </BaseButton>
-
-          <BaseButton href="/write/news">
-            <PlusIcon className="size-4 " />
-            News
-          </BaseButton>
-          <BaseButton href="/write/research-paper">
-            <PlusIcon className="size-4 " />
-            Research Paper
-          </BaseButton>
-          <BaseButton href="/write/story">
-            <PlusIcon className="size-4" />
-            Story
-          </BaseButton>
-          <BaseButton href="/write/biography">
-            <PlusIcon className="size-4 " />
-            Biography
+            Write
           </BaseButton>
           <BaseButton href="/write/biography">
             <ArrowUpTrayIcon className="size-4" />
             Upload Videos
           </BaseButton>
           <BaseSpecialButton href="/share/work">
-            <ShareIcon className="size-4" />
+            <ChalkboardSimple weight="bold" className="size-4" />
             Share Work
           </BaseSpecialButton>
         </ul>

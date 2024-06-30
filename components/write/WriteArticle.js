@@ -6,13 +6,15 @@ import supabase from "@lib/supabase";
 import toast from "react-hot-toast";
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 import { useRouter } from "next/navigation";
+import QuillEditor from "@components/QuillEditor";
+import { PaperPlaneRight } from "@phosphor-icons/react/dist/ssr";
 
 const WriteArticle = ({ supabaseURL, hostname, session }) => {
   const [heading, setHeading] = useState("");
   const [description, setDescription] = useState("");
-  const [content, setContent] = useState("");
-  const [tags, setTags] = useState([]);
-  const [featuredImage, setFeaturedImage] = useState({});
+  const [content, setContent] = useState(""); // This will store the HTML content from QuillEditor
+  const [tags, setTags] = useState("");
+  const [featuredImage, setFeaturedImage] = useState("");
   const [journal, setJournal] = useState("");
   const [source, setSource] = useState("");
   const [summary, setSummary] = useState("");
@@ -34,18 +36,19 @@ const WriteArticle = ({ supabaseURL, hostname, session }) => {
       return;
     }
 
-    if (!heading || !description || !content || !featuredImage || !tags) {
+    if (!heading || !content || !description || !featuredImage || !tags) {
       toast.error("Please fill all fields");
       return;
     }
+
     try {
       setIsLoading(true);
       const imageName = `${Math.random()}-${Date.now()}-${featuredImage?.name}`;
       const imagePath = `${supabaseURL}/storage/v1/object/public/minder-image/${imageName}`;
-      const blogData = {
+      const articleData = {
         heading: heading,
         description: description,
-        content: content,
+        content: content, // HTML content from QuillEditor
         tags: tags,
         source: source,
         abstract: abstract,
@@ -56,11 +59,11 @@ const WriteArticle = ({ supabaseURL, hostname, session }) => {
         featuredImage: imagePath,
       };
 
-      // console.log(blogData);
+      console.log(articleData);
 
       const response = await axios.post(
         `${hostname}/api/v1/minders`,
-        blogData,
+        articleData,
         {
           headers: {
             "Content-Type": "application/json",
@@ -72,41 +75,52 @@ const WriteArticle = ({ supabaseURL, hostname, session }) => {
       await supabase.storage.from("minder-image").upload(imageName, avatarFile);
 
       const slug = response?.data?.data?.data?.slug;
-      toast.success("Blog posted!");
+      toast.success("Article posted!");
       router.push(`/read/${slug}`);
 
       setHeading("");
       setDescription("");
       setContent("");
-      setFeaturedImage({});
-      setTags([]);
+      setFeaturedImage("");
+      setTags("");
+      setJournal("");
+      setSource("");
+      setSummary("");
+      setAbstract("");
     } catch (error) {
-      toast.error("Error posting blog:", error);
+      toast.error("Error posting article:", error);
+      console.log(error);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleTagsChange = (e) => {
-    const inputTags = e.target.value.split(" ").filter((tag) => tag);
-    setTags(inputTags);
-  };
-
   return (
-    <div className="font-medium flex flex-col gap-2">
-      <div className="flex gap-2 items-center text-sm">
-        <p className="bg-gray-200 px-2 rounded-full">Minder Type : Blog</p>
-        <p className="bg-gray-200 px-2 rounded-full">
+    <div className="font-medium text-stone-600 flex flex-col gap-2">
+      <div className="flex gap-2 px-2 items-center text-sm">
+        <p className="bg-stone-100 px-3 py-0.5 text-stone-600 border rounded-full">
+          Minder Type : Article
+        </p>
+        <p className="bg-stone-100 px-3 py-0.5 text-stone-600 text-stone-60 border rounded-full">
           Author : {session?.user?.name}
         </p>
       </div>
-      <form
-        onSubmit={handleSubmit}
-        className="bg-gray-100 p-2 flex flex-col gap-2"
-      >
+
+      <form onSubmit={handleSubmit} className="p-2 flex flex-col gap-2">
+        <QuillEditor value={content} onChange={setContent} />
+        <div className="flex flex-col gap-1">
+          <label className="dark:text-stone-200">Heading</label>
+          <textarea
+            rows={1}
+            className="bg-inherit w-full p-2 outline-none bg-stone-100 border border-stone-300 rounded-sm resize-none"
+            value={heading}
+            onChange={(e) => setHeading(e.target.value)}
+            placeholder="Write heading for your Article"
+          ></textarea>
+        </div>
         <div className="flex gap-4">
           <div className="flex gap-2 items-center">
-            <label>Choose Photo</label>
+            <label className="dark:text-stone-200">Choose Photo</label>
             <input
               type="file"
               className="file-input"
@@ -115,87 +129,67 @@ const WriteArticle = ({ supabaseURL, hostname, session }) => {
           </div>
           <div className="flex gap-1 items-center justify-center">
             <div className="flex items-center gap-1">
-              <label>Tags</label>
+              <label className="dark:text-stone-200">Tags</label>
               <textarea
                 rows={1}
-                className="bg-gray-200 w-[40rem] p-2 outline-none border rounded-md resize-none"
-                value={tags.join(" ")}
-                onChange={handleTagsChange}
-                placeholder="Make sure you give space after each tag"
+                value={tags}
+                onChange={(e) => setTags(e.target.value)}
+                className="bg-stone-100 min-w-20 p-2 outline-none border border-stone-300 rounded-sm resize-none"
+                placeholder="#tags"
               ></textarea>
             </div>
             {/* <p className="text-red-600 text-sm">*Give space after every tag</p> */}
           </div>
         </div>
-        <div className="flex flex-col gap-1">
-          <label>Heading</label>
-          <textarea
-            rows={1}
-            className="bg-gray-200 w-full p-2 outline-none border rounded-md resize-none"
-            value={heading}
-            onChange={(e) => setHeading(e.target.value)}
-            placeholder="Write heading for your Blog"
-          ></textarea>
-        </div>
-        <div className="flex flex-col gap-1">
-          <label>Description</label>
-          <textarea
-            rows={2}
-            className="bg-gray-200 w-full p-2 outline-none border rounded-md resize-none"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            placeholder="Write description for your Blog"
-          ></textarea>
-        </div>
-        <div className="flex flex-col gap-1">
-          <label>Journal</label>
-          <textarea
-            rows={4}
-            className="bg-gray-200 w-full p-2 outline-none border rounded-md resize-none"
-            value={journal}
-            onChange={(e) => setJournal(e.target.value)}
-            placeholder="Write journal for your Blog"
-          ></textarea>
-        </div>
 
         <div className="flex flex-col gap-1">
-          <label>Content</label>
+          <label className="dark:text-stone-200">Description</label>
           <textarea
-            rows={20}
-            className="bg-gray-200 w-full p-2 outline-none border rounded-md resize-none"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            placeholder="Write content for your Article"
+            rows={2}
+            className="bg-stone-100 w-full p-2 outline-none border border-stone-300 rounded-sm resize-none"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder="Write description for your Article"
           ></textarea>
         </div>
         <div className="flex flex-col gap-1">
-          <label>Abstract</label>
+          <label className="dark:text-stone-200">Journal</label>
+          <textarea
+            rows={4}
+            className="bg-stone-100 w-full p-2 outline-none border border-stone-300 rounded-sm resize-none"
+            value={journal}
+            onChange={(e) => setJournal(e.target.value)}
+            placeholder="Write journal for your Article"
+          ></textarea>
+        </div>
+        <div className="flex flex-col gap-1">
+          <label className="dark:text-stone-200">Abstract</label>
           <textarea
             rows={6}
-            className="bg-gray-200 w-full p-2 outline-none border rounded-md resize-none"
+            className="bg-stone-100 w-full p-2 outline-none border border-stone-300 rounded-sm resize-none"
             value={abstract}
             onChange={(e) => setAbstract(e.target.value)}
             placeholder="Write abstract for your Article"
           ></textarea>
         </div>
         <div className="flex flex-col gap-1">
-          <label>Summary</label>
+          <label className="dark:text-stone-200">Summary</label>
           <textarea
             rows={4}
-            className="bg-gray-200 w-full p-2 outline-none border rounded-md resize-none"
+            className="bg-stone-100 w-full p-2 outline-none border border-stone-300 rounded-sm resize-none"
             value={summary}
             onChange={(e) => setSummary(e.target.value)}
-            placeholder="Write Summary for your Article"
+            placeholder="Write summary for your Article"
           ></textarea>
         </div>
         <div className="flex flex-col gap-1">
-          <label>Sources</label>
+          <label className="dark:text-stone-200">Sources</label>
           <textarea
             rows={1}
-            className="bg-gray-200 w-full p-2 outline-none border rounded-md resize-none"
+            className="bg-stone-100 w-full p-2 outline-none border border-stone-300 rounded-sm resize-none"
             value={source}
             onChange={(e) => setSource(e.target.value)}
-            placeholder="Write Summary for your Article"
+            placeholder="Write sources for your Article"
           ></textarea>
         </div>
         <button
@@ -210,7 +204,7 @@ const WriteArticle = ({ supabaseURL, hostname, session }) => {
           ) : (
             <div className="flex items-center gap-2">
               <p>POST</p>
-              <PaperAirplaneIcon className="size-4" />
+              <PaperPlaneRight weight="bold" />
             </div>
           )}
         </button>

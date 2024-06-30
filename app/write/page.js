@@ -1,37 +1,35 @@
-import React from "react";
+import WriteMinder from "@components/WriteMinder";
+import { auth } from "@lib/auth";
 import Link from "next/link";
-import { HashtagIcon } from "@heroicons/react/24/solid";
+const hostname = process.env.HOST_NAME;
+const supabaseURL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 
-const page = () => {
+const page = async () => {
+  const session = await auth();
+
   return (
     <div>
-      <h2 className="font-medium mb-4">What you want to write?</h2>
-      <ul className="flex gap-2">
-        <li className="flex gap-1 items-center bg-emerald-600 text-stone-50 py-1 px-2 rounded-[4px]">
-          <HashtagIcon className="size-4 text-slate-100" />
-          <Link href="/write/blog">Blog</Link>
-        </li>
-        <li className="flex gap-1 items-center bg-emerald-600 text-stone-50 py-1 px-2 rounded-[4px]">
-          <HashtagIcon className="size-4 text-slate-100" />
-          <Link href="/write/article">Article</Link>
-        </li>
-        <li className="flex gap-1 items-center bg-emerald-600 text-stone-50 py-1 px-2 rounded-[4px]">
-          <HashtagIcon className="size-4 text-slate-100" />
-          <Link href="/write/news">News</Link>
-        </li>
-        <li className="flex gap-1 items-center bg-emerald-600 text-stone-50 py-1 px-2 rounded-[4px]">
-          <HashtagIcon className="size-4 text-slate-100" />
-          <Link href="/write/story">Story</Link>
-        </li>
-        <li className="flex gap-1 items-center bg-emerald-600 text-stone-50 py-1 px-2 rounded-[4px]">
-          <HashtagIcon className="size-4 text-slate-100" />
-          <Link href="/write/biography">Biography</Link>
-        </li>
-        <li className="flex gap-1 items-center bg-emerald-600 text-stone-50 py-1 px-2 rounded-[4px]">
-          <HashtagIcon className="size-4 text-slate-100" />
-          <Link href="/write/research-paper">Research Paper</Link>
-        </li>
-      </ul>
+      {!session?.user ? (
+        <div className="flex flex-col gap-2 font-medium">
+          <Link
+            href="/login"
+            className="bg-red-600 text-stone-100 p-2 rounded-lg w-fit"
+          >
+            Login to write Blog
+          </Link>
+          <p className="text-sm text-red-600 border-l-2 border-l-red-600 pl-2">
+            You cannot write until you are not Logged In
+          </p>
+        </div>
+      ) : (
+        <div>
+          <WriteMinder
+            supabaseURL={supabaseURL}
+            hostname={hostname}
+            session={session}
+          />
+        </div>
+      )}
     </div>
   );
 };

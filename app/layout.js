@@ -4,14 +4,7 @@ import Header from "@components/Header";
 import { Toaster } from "react-hot-toast";
 import Head from "next/head";
 import { ThemeProvider } from "next-themes";
-import dynamic from "next/dynamic";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-
 const inter = Inter({ subsets: ["latin"] });
-
-const FroalaEditor = dynamic(() => import("react-froala-wysiwyg"), {
-  ssr: false,
-});
 
 export const metadata = {
   title: "Open Minder - Beyond Boundaries",
@@ -29,7 +22,8 @@ export default function RootLayout({ children }) {
       </Head>
       <body className={inter.className}>
         <ThemeProvider enableSystem={true} attribute="class">
-          <Toaster />
+          <Toaster position="bottom-right" reverseOrder={false} />
+
           <div className="w-full h-full dark:bg-stone-950 mx-auto my-0">
             <div className="sticky top-0 z-10">
               <Header />

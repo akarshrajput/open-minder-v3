@@ -63,12 +63,10 @@ const page = async ({ params }) => {
             ""
           )}
           <div>
-            <p
+            <div
               className="text-lg px-4 p-2 my-2"
               dangerouslySetInnerHTML={{ __html: contentWithLineBreaks }}
-            >
-              {/* Render content with line breaks */}
-            </p>
+            ></div>
           </div>
         </div>
         {minder?.data?.summary ? (
