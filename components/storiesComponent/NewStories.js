@@ -2,15 +2,21 @@ import { CheckBadgeIcon, NewspaperIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 
 const NewStories = async () => {
-  const hostname = process.env.HOST_NAME;
-  const res = await fetch(
-    `${hostname}/api/v1/minders?minderType=Story&limit=4&sort=-createdAt`
-  );
-  if (!res.ok) {
-    throw new Error("Network response was not ok");
+  let globalData = {};
+  try {
+    const hostname = process.env.HOST_NAME;
+    const res = await fetch(
+      `${hostname}/api/v1/minders?minderType=Story&limit=4&sort=-createdAt`
+    );
+    if (!res.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const data = await res.json();
+    const fetchedBlogs = data?.data?.minders;
+    globalData = fetchedBlogs;
+  } catch (errr) {
+    <p>Error!</p>;
   }
-  const data = await res.json();
-  const fetchedBlogs = data?.data?.minders;
 
   return (
     <div className="flex flex-col gap-4 p-1 rounded-sm">
@@ -18,7 +24,7 @@ const NewStories = async () => {
         <NewspaperIcon className="size-4" />
         <p>New Stories</p>
       </div>
-      {fetchedBlogs.map((blog) => (
+      {globalData.map((blog) => (
         <Blog blog={blog} key={blog._id} />
       ))}
     </div>

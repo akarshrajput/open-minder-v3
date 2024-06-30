@@ -2,17 +2,23 @@ import { ArrowTrendingUpIcon, CheckBadgeIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 
 const Popular = async () => {
-  const hostname = process.env.HOST_NAME;
+  let globalData = {};
+  try {
+    const hostname = process.env.HOST_NAME;
 
-  const res = await fetch(
-    `${hostname}/api/v1/minders/slug/the-rise-in-temperature-in-india-an-ala-6658a31504778ad751fa627a`
-  );
-  if (!res.ok) {
-    throw new Error("Network response was not ok");
+    const res = await fetch(
+      `${hostname}/api/v1/minders/slug/the-rise-in-temperature-in-india-an-ala-6658a31504778ad751fa627a`
+    );
+    if (!res.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const data = await res.json();
+
+    const minder = data?.data;
+    globalData = minder;
+  } catch (err) {
+    <p>Error!</p>;
   }
-  const data = await res.json();
-
-  const minder = data?.data;
 
   return (
     <div className="flex flex-col gap-4 p-1 rounded-sm">
@@ -21,7 +27,7 @@ const Popular = async () => {
         <p>Trending on Minder</p>
       </div>
 
-      <Minder minder={minder} key={minder._id} />
+      <Minder minder={globalData} key={globalData._id} />
     </div>
   );
 };

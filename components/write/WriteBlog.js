@@ -6,12 +6,6 @@ import supabase from "@lib/supabase";
 import toast from "react-hot-toast";
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 import { useRouter } from "next/navigation";
-import dynamic from "next/dynamic";
-// import EditorComponent from "@components/EditorComponent";
-
-const EditorComponent = dynamic(() => import("@components/EditorComponent"), {
-  ssr: false,
-});
 
 const WriteBlog = ({ supabaseURL, hostname, session }) => {
   const [heading, setHeading] = useState("");
@@ -98,7 +92,7 @@ const WriteBlog = ({ supabaseURL, hostname, session }) => {
           Author : {session?.user?.name}
         </p>
       </div>
-      <EditorComponent />
+
       <form
         onSubmit={handleSubmit}
         className="bg-gray-100 p-2 flex flex-col gap-2"

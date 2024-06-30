@@ -2,14 +2,20 @@ import { CheckBadgeIcon, NewspaperIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 
 const NewWorks = async () => {
-  const hostname = process.env.HOST_NAME;
-  const res = await fetch(`${hostname}/api/v1/works?sort=-createdAt`);
-  if (!res.ok) {
-    throw new Error("Network response was not ok");
+  let globalData = {};
+  try {
+    const hostname = process.env.HOST_NAME;
+    const res = await fetch(`${hostname}/api/v1/works?sort=-createdAt`);
+    if (!res.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const data = await res.json();
+    const fetchedWork = data?.data?.works;
+    globalData = fetchedWork;
+    //   console.log(fetchedWork);
+  } catch (err) {
+    <p>Error!</p>;
   }
-  const data = await res.json();
-  const fetchedWork = data?.data?.works;
-  //   console.log(fetchedWork);
 
   return (
     <div className="flex flex-col gap-4 p-1 rounded-sm">
@@ -17,7 +23,7 @@ const NewWorks = async () => {
         <NewspaperIcon className="size-4" />
         <p>New Works</p>
       </div>
-      {fetchedWork.map((work) => (
+      {globalData.map((work) => (
         <Blog work={work} key={work._id} />
       ))}
     </div>
