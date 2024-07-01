@@ -6,6 +6,7 @@ import supabase from "@lib/supabase";
 import toast from "react-hot-toast";
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
 
 const WriteWork = ({ supabaseURL, hostname, session }) => {
   const [workType, setWorkType] = useState("Project");
@@ -280,4 +281,4 @@ const WriteWork = ({ supabaseURL, hostname, session }) => {
   );
 };
 
-export default WriteWork;
+export default dynamic(() => Promise.resolve(WriteWork), { ssr: false });

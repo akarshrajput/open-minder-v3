@@ -13,4 +13,4 @@ const QuillEditor = ({ value, onChange }) => {
   );
 };
 
-export default QuillEditor;
+export default dynamic(() => Promise.resolve(QuillEditor), { ssr: false });

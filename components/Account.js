@@ -1,3 +1,4 @@
+import dynamic from "next/dynamic";
 import React from "react";
 
 const Account = ({ session }) => {
@@ -26,4 +27,4 @@ const Account = ({ session }) => {
   );
 };
 
-export default Account;
+export default dynamic(() => Promise.resolve(Account), { ssr: false });

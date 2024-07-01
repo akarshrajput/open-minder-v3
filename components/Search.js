@@ -4,6 +4,7 @@ import { MagnifyingGlassIcon, SparklesIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 // import hostname from "@lib/hostname";
 import Loader from "./Loader";
+import dynamic from "next/dynamic";
 
 const Search = ({ hostname }) => {
   const [input, setInput] = useState("");
@@ -132,4 +133,4 @@ const SearchItem = ({ minder }) => {
 
 SearchContent.displayName = "SearchContent";
 
-export default Search;
+export default dynamic(() => Promise.resolve(Search), { ssr: false });

@@ -2,6 +2,7 @@ import { LockClosedIcon, SparklesIcon } from "@heroicons/react/24/solid";
 import { auth } from "@lib/auth";
 import Link from "next/link";
 import DarkModeBtn from "./buttons/DarkModeBtn";
+import dynamic from "next/dynamic";
 
 const HeaderNav = async () => {
   const session = await auth();
@@ -37,4 +38,4 @@ const HeaderNav = async () => {
   );
 };
 
-export default HeaderNav;
+export default dynamic(() => Promise.resolve(HeaderNav), { ssr: false });

@@ -7,6 +7,7 @@ import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 import { useRouter } from "next/navigation";
 import QuillEditor from "@components/QuillEditor";
 import { PaperPlaneRight } from "@phosphor-icons/react/dist/ssr";
+import dynamic from "next/dynamic";
 
 const WriteBlog = ({ supabaseURL, hostname, session }) => {
   const [heading, setHeading] = useState("");
@@ -192,4 +193,4 @@ const WriteBlog = ({ supabaseURL, hostname, session }) => {
   );
 };
 
-export default WriteBlog;
+export default dynamic(() => Promise.resolve(WriteBlog), { ssr: false });

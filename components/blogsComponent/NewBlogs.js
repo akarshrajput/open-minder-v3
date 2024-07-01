@@ -1,4 +1,5 @@
 import { CheckBadgeIcon, NewspaperIcon } from "@heroicons/react/24/solid";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 
 const NewBlogs = async () => {
@@ -78,4 +79,4 @@ const Blog = ({ blog }) => {
   );
 };
 
-export default NewBlogs;
+export default dynamic(() => Promise.resolve(NewBlogs), { ssr: false });

@@ -1,4 +1,5 @@
 import { Spinner } from "@phosphor-icons/react/dist/ssr";
+import dynamic from "next/dynamic";
 import React from "react";
 
 const Loader = () => {
@@ -9,4 +10,4 @@ const Loader = () => {
   );
 };
 
-export default Loader;
+export default dynamic(() => Promise.resolve(Loader), { ssr: false });

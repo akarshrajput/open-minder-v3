@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { MoonStars, SunDim } from "@phosphor-icons/react/dist/ssr";
+import dynamic from "next/dynamic";
 
 const DarkModeBtn = () => {
   const { theme, setTheme, systemTheme } = useTheme();
@@ -36,4 +37,4 @@ const DarkModeBtn = () => {
   );
 };
 
-export default DarkModeBtn;
+export default dynamic(() => Promise.resolve(DarkModeBtn), { ssr: false });

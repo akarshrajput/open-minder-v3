@@ -1,3 +1,4 @@
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import React from "react";
 
@@ -14,4 +15,4 @@ const BaseButton = ({ className, children, href = "" }) => {
   );
 };
 
-export default BaseButton;
+export default dynamic(() => Promise.resolve(BaseButton), { ssr: false });

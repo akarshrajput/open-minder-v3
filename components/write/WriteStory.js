@@ -5,6 +5,7 @@ import supabase from "@lib/supabase";
 import toast from "react-hot-toast";
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
 
 const WriteStory = ({ supabaseURL, hostname, session }) => {
   const [heading, setHeading] = useState("");
@@ -191,4 +192,4 @@ const WriteStory = ({ supabaseURL, hostname, session }) => {
   );
 };
 
-export default WriteStory;
+export default dynamic(() => Promise.resolve(WriteStory), { ssr: false });

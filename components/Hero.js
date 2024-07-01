@@ -11,6 +11,7 @@ import React from "react";
 import BaseSpecialButton from "./buttons/BaseSpecialButton";
 import BaseButton from "./buttons/BaseButton";
 import { ChalkboardSimple } from "@phosphor-icons/react/dist/ssr";
+import dynamic from "next/dynamic";
 
 const Hero = async () => {
   const session = await auth();
@@ -47,4 +48,4 @@ const Hero = async () => {
   );
 };
 
-export default Hero;
+export default dynamic(() => Promise.resolve(Hero), { ssr: false });

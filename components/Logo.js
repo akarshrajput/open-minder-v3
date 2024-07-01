@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 
 const Logo = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -34,6 +35,7 @@ const Logo = () => {
             width={140}
             height={10}
             alt="Logo"
+            className="h-9 w-auto"
           />
         ) : (
           <Image
@@ -41,6 +43,8 @@ const Logo = () => {
             width={140}
             height={10}
             alt="Logo"
+            priority={false}
+            className="h-9 w-auto"
           />
         )}
       </Link>
@@ -48,4 +52,4 @@ const Logo = () => {
   );
 };
 
-export default Logo;
+export default dynamic(() => Promise.resolve(Logo), { ssr: false });

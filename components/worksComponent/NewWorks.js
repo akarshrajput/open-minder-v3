@@ -1,4 +1,5 @@
 import { CheckBadgeIcon, NewspaperIcon } from "@heroicons/react/24/solid";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 
 const NewWorks = async () => {
@@ -72,4 +73,4 @@ const Blog = ({ work }) => {
   );
 };
 
-export default NewWorks;
+export default dynamic(() => Promise.resolve(NewWorks), { ssr: false });

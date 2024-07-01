@@ -1,4 +1,5 @@
 import { ArrowTrendingUpIcon, CheckBadgeIcon } from "@heroicons/react/24/solid";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 
 const Popular = async () => {
@@ -73,4 +74,4 @@ const Minder = ({ minder }) => {
   );
 };
 
-export default Popular;
+export default dynamic(() => Promise.resolve(Popular), { ssr: false });

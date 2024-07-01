@@ -5,13 +5,8 @@ import Popular from "@components/popularComponents/Popular";
 
 import NewStories from "@components/storiesComponent/NewStories";
 import NewWorks from "@components/worksComponent/NewWorks";
-import { auth } from "@lib/auth";
-// import { Toaster } from "react-hot-toast";
-import { ToastContainer } from "react-toastify";
 
 export default async function Home() {
-  const session = await auth();
-
   return (
     <div className="font-medium flex flex-col gap-4">
       <Hero />
@@ -28,7 +23,7 @@ export default async function Home() {
             <NewArticles />
             <NewWorks />
           </div>
-          <div>Container - 4</div>
+          {/* <div>Container - 4</div> */}
         </div>
       </div>
     </div>

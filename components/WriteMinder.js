@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import WriteBlog from "./write/WriteBlog";
 import WriteArticle from "./write/WriteArticle";
+import dynamic from "next/dynamic";
 
 const WriteMinder = async ({ supabaseURL, hostname, session }) => {
   const [currentState, setCurrentState] = useState("Blog");
@@ -58,4 +59,4 @@ const WriteMinder = async ({ supabaseURL, hostname, session }) => {
   );
 };
 
-export default WriteMinder;
+export default dynamic(() => Promise.resolve(WriteMinder), { ssr: false });

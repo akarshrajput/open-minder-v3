@@ -1,11 +1,5 @@
 import React from "react";
 
-export const metadata = {
-  title: "Read stories, blogs, articles and more...",
-  description:
-    "Openminder is an application for reading and writing blogs, news, stories, research, and many more...",
-};
-
 const Layout = ({ children }) => {
   return (
     <>

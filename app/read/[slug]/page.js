@@ -1,15 +1,12 @@
 import { CheckBadgeIcon } from "@heroicons/react/24/solid";
 const hostname = process.env.HOST_NAME;
-import React from "react";
 
 const page = async ({ params }) => {
   const res = await fetch(`${hostname}/api/v1/minders/slug/${params.slug}`);
 
   const minder = await res.json();
   const contentWithLineBreaks = minder?.data?.content.replace(/\n/g, "<br>");
-  const metadata = {
-    title: minder?.data?.heading,
-  };
+
   return (
     <div className="font-medium flex flex-col items-center">
       <div className="flex flex-col gap-2 w-[80rem]">
